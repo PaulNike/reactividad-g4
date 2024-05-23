@@ -2,12 +2,14 @@ package com.codigo.introwebflux.controller;
 
 import com.codigo.introwebflux.entity.Product;
 import com.codigo.introwebflux.service.ProductService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin("*")
 public class ProductController {
 
     private final ProductService productService;
@@ -31,5 +33,9 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public Mono<Void> deleteProduct(@PathVariable Long id){
         return productService.deleteProduct(id);
+    }
+    @GetMapping(value = "/getchanges", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Product> suscribersChanges(){
+        return productService.getChanges();
     }
 }

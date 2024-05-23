@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto Cambios</title>
+</head>
+<body>
+<h1>Productos Cambios</h1>
+<ul id="products-list"></ul>
+<script>
+
+    const eventSource = new EventSource('http://localhost:8080/products/getchanges');
+    eventSource.onmessage = function (event){
+        const product = JSON.parse(event.data);
+        const  item = document.createElement('li');
+        item.textContent = `Product: ${product.name}, Price: ${product.price}`;
+        document.getElementById('products-list').appendChild(item);
+    }
+
+</script>
+
+</body>
+</html>
